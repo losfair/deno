@@ -376,7 +376,7 @@ impl TryFrom<V8KvCheck> for KvCheck {
   }
 }
 
-type V8KvMutation = (KvKey, String, Option<FromV8Value>);
+type V8KvMutation = (KvKey, String, Option<FromV8Value>, Option<u64>);
 
 impl TryFrom<V8KvMutation> for KvMutation {
   type Error = AnyError;
@@ -397,7 +397,11 @@ impl TryFrom<V8KvMutation> for KvMutation {
         )))
       }
     };
-    Ok(KvMutation { key, kind })
+    Ok(KvMutation {
+      key,
+      kind,
+      expire_at: value.3,
+    })
   }
 }
 
